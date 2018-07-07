@@ -4,10 +4,7 @@
             [clj-time.format :as f]))
 
 (def yyyy-mm-formatter (f/formatter "yyyy-MM"))
-(def budget-pack {
-  "2018-02" 2800
-  "2018-04" 3000
-})
+(def budget-pack {"2018-02" 2800 "2018-04" 3000})
 
 (defn time-range
   [start end step]
@@ -21,18 +18,15 @@
 
 (defn budget-by-day
   [day]
-  (def days (number-of-days-in-the-month day))
-  (/ (get budget-pack (f/unparse yyyy-mm-formatter day) 0) days)
-)
+  (let [days (number-of-days-in-the-month day)]
+    (/ (get budget-pack (f/unparse yyyy-mm-formatter day) 0) days)))
 
 (defn find-budget-between
   [from to]
-  (def r (time-range from (t/plus to (t/days 1)) (t/days 1)))
-  (reduce + (map budget-by-day r))
-)
+  (let [r (time-range from (t/plus to (t/days 1)) (t/days 1))]
+    (reduce + (map budget-by-day r))))
 
 (defn -main []
   (def from (t/date-time 2018 2 1))
   (def to (t/date-time 2018 4 6))
-  (print (find-budget-between from to))
-  )
+  (print (find-budget-between from to)))
