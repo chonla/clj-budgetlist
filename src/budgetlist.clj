@@ -30,6 +30,4 @@
        (reduce +)))
 
 (defn -main []
-  (def from (t/date-time 2018 2 1))
-  (def to (t/date-time 2018 4 6))
-  (print (find-budget-between from to)))
+  (print (find-budget-between (t/date-time 2018 2 1) (t/date-time 2018 4 6))))
