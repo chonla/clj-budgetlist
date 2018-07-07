@@ -18,18 +18,16 @@
        (t/day)))
 
 (defn budget-by-day [day]
-  (let [days (number-of-days-in-the-month day)]
-    (as-> day d
-      (f/unparse yyyy-mm-formatter d)
-      (get budget-pack d 0)
-      (/ d days))))
+  (as-> day d
+    (f/unparse yyyy-mm-formatter d)
+    (get budget-pack d 0)
+    (/ d (number-of-days-in-the-month day))))
 
 (defn find-budget-between
   [from to]
-  (let [r (time-range from (t/plus to (t/days 1)) (t/days 1))]
-    (->> r
-         (map budget-by-day)
-         (reduce +))))
+  (->> (time-range from (t/plus to (t/days 1)) (t/days 1))
+       (map budget-by-day)
+       (reduce +)))
 
 (defn -main []
   (def from (t/date-time 2018 2 1))
